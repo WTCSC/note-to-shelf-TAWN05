@@ -1,59 +1,210 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/x_3ULh4W)
-[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=17710552)
-# Note to Shelf
+# Command-Line Note-Taking
 
-<!--
+A Bash-based command-line tool for managing notes. This tool allows you to quickly **add**, **list**, and **search** notes directly from your terminal.
 
-Create a shell script that functions as a command-line note-taking tool. This tool should help you quickly capture and organize thoughts, reminders, and tasks directly from the terminal.
+----------
 
-## Requirements
+## Table of Contents
 
-- The script must support the following commands:
-    - Add a new note: `note add "Your note text here"`
-    - List all notes: `note list`
-    - Search notes: `note search "keyword"`
-- Implementation requirements:
-    - Store notes in a text file with proper date/time stamps
-    - Include error handling for all commands
-    - Implement input validation
-    - Add proper logging for debugging
+-   [Description](#description)
+-   [Features](#features)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Examples](#examples)
+-   [Prerequisites](#prerequisites)
+-   [Exit Codes](#exit-codes)
+-   [FAQ](#faq)
+-   [Bugs](#bugs)
 
-## Testing Criteria
+----------
 
-Your script will be tested against the following scenarios:
+## Description
 
-- Adding notes with special characters
-- Proper file operations (read/write)
-- Correct date/time formatting
-- Search functionality accuracy
-- Proper exit codes for success/failure
+This Bash script provides a lightweight solution for maintaining notes without relying on third-party applications. Notes are stored with timestamps in a simple text file located in the user's home directory.
 
-## Example Usage
+----------
+
+## Features
+
+-   **Add Notes**: Append a note with a timestamp to your notes file.
+-   **List Notes**: Display all saved notes.
+-   **Search Notes**: Find specific notes by keyword.
+-   **Portable**: Works in any directory as it stores notes in your home directory.
+-   **Minimal Dependencies**: Requires only a Bash shell.
+
+----------
+
+## Installation
+
+1.  **Clone the Repository**
+    
+    ```bash
+    git clone https://github.com/WTCSC/note-to-shelf-TAWN05.git
+    
+    ```
+    
+2.  **Save the Script**: Copy the script to a file named `note.sh` and place it in a directory of your choice.
+    
+3.  **Make the Script Executable**:
+    
+    ```bash
+    chmod +x note.sh
+    
+    ```
+    
+4.  **(Optional) Add to PATH**: Move the script to a directory in your `PATH` (e.g., `/usr/local/bin`) so it can be accessed globally:
+    
+    ```bash
+    mv note.sh /usr/local/bin
+    
+    ```
+    
+
+----------
+
+## Usage
+
+Run the script using the following syntax:
 
 ```bash
-#!/bin/bash
+note.sh <command> [arguments]
 
-# Add a note
-$ ./note.sh add "Schedule dentist appointment"
-Note added successfully
-
-# List all notes
-$ ./note.sh list
-2025-01-06 12:04:06 - Schedule dentist appointment
-2025-01-06 12:05:04 - Buy groceries
-
-# Search notes
-$ ./note.sh search "dentist"
-2025-01-06 12:04:06 - Schedule dentist appointment
 ```
 
-## Tips and Tricks
+### Commands
 
-You might find the following resources helpful for completing this assignment:
+1.  **Add a Note**:
+    
+    ```bash
+    note.sh add "Your note text"
+    
+    ```
+    
+    -   Saves a note with the current date and time.
+2.  **List All Notes**:
+    
+    ```bash
+    note.sh list
+    
+    ```
+    
+    -   Displays all notes stored in the `notes.txt` file.
+3.  **Search Notes by Keyword**:
+    
+    ```bash
+    note.sh search "keyword"
+    
+    ```
+    
+    -   Performs a case-insensitive search for notes containing the keyword.
 
-- https://www.redhat.com/en/blog/arguments-options-bash-scripts
-- https://linuxhint.com/bash_append_line_to_file/
-- https://linuxconfig.org/how-to-find-a-string-or-text-in-a-file-on-linux
-- https://www.geeksforgeeks.org/create-timestamp-variable-in-bash-script/
+----------
 
--->
+## Examples
+
+1.  **Adding Notes**:
+    
+    ```bash
+    note.sh add "Buy groceries"
+    note.sh add "Finish the project by Friday"
+    
+    ```
+    
+2.  **Listing Notes**:
+    
+    ```bash
+    note.sh list
+    
+    ```
+    
+3.  **Searching Notes**:
+    
+    ```bash
+    note.sh search "groceries"
+    
+    ```
+    
+4.  **Error Handling**:
+    
+    -   If you forget to provide a note:
+        
+        ```bash
+        note.sh add
+        # Output: Error: The 'add' command requires a note text argument.
+        
+        ```
+        
+
+----------
+
+## Prerequisites
+
+-   **Operating System**: Unix-based (Linux, macOS, or Windows Subsystem for Linux).
+-   **Bash Shell**: Version 4.0 or higher.
+-   **Tools/Commands**: `grep`, `date`, `cat`.
+
+----------
+
+## Exit Codes
+
+The script uses specific exit codes to indicate the outcome of its execution:
+
+`0`
+
+Success
+
+`1`
+
+Usage error (invalid command)
+
+`2`
+
+Missing arguments
+
+`3`
+
+No notes found
+
+`4`
+
+Search yielded no results
+
+----------
+
+## FAQ
+
+### **Q: Where are the notes stored?**
+
+The notes are stored in a text file named `notes.txt` located in your home directory (`~/notes.txt`).
+
+### **Q: Can I use this script on Windows?**
+
+This script works on Windows if you're using a Unix-like environment such as Windows Subsystem for Linux (WSL).
+
+### **Q: How do I clear all my notes?**
+
+Simply delete the `notes.txt` file:
+
+```bash
+rm ~/notes.txt
+
+```
+
+### **Q: What happens if I try to list notes without adding any?**
+
+The script will inform you that no notes are found.
+
+## Bugs
+
+### **Injection**
+this script does not have any input sanitation for additional arguments if quotation marks are not used than a secondary or more commands can be run. for example.
+
+```bash
+notes.sh add this is a test && ls -a
+```
+this will execute the ls -a command it is very highly recommended to use quotation marks so this problem will not occur. this is correct usage
+
+```bash
+notes.sh add "this is a test && ls -a"
+```
+this will add the note "this is a test && ls -a" and will not run the command.
